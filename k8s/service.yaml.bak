@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: k8s-example
+  name: k8s-example
+spec:
+  ports:
+  - name: 80-8080
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: k8s-example
+  type: ClusterIP # ClusterIP 需要 kubectl port-forward
+status:
+  loadBalancer: {}

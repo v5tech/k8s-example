@@ -1,0 +1,21 @@
+apiVersion: skaffold/v2beta3
+kind: Config
+metadata:
+  name: k-s-example
+build:
+  artifacts:
+  - image: registry.hub.docker.com/aimeizi/k8s-example
+    jib:
+      project: net.ameizi:k8s-example
+deploy:
+#  kubectl:
+#    manifests:
+#    - k8s/deployment.yaml
+#    - k8s/service.yaml
+  kustomize:
+    paths: ["kustomize/base"]
+profiles:
+  - name: qa
+    deploy:
+      kustomize:
+        paths: ["kustomize/qa"]

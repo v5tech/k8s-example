@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: k8s-example
+  name: k8s-example
+spec:
+  ports:
+  - name: 80-8080
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: k8s-example
+  type: LoadBalancer # LoadBalancer 不需要kubectl port-forward 直接用映射出来的 IP 和端口访问
+status:
+  loadBalancer: {}
