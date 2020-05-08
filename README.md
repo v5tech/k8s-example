@@ -1289,6 +1289,46 @@ ktctl在socks5模式下，会自动在当前路径下生成.jvmrc文件，该文
 ```
 之后可以在 ide 中直接访问k8s中的服务。
 
+### 远程调试
+
+```
+FROM openjdk:8-jdk-alpine
+VOLUME /tmp
+ADD target/app.jar target/app.jar
+ENTRYPOINT ["java","-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n","-Djava.security.egd=file:/dev/./urandom","-Xms2g","-Xmx8g","-jar","target/app.jar"]
+```
+
+在 Service 中暴露端口
+
+![](Screenshots/remote_debug.png)
+
+如本例可修改为
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: k8s-example
+  name: k8s-example
+spec:
+  ports:
+  - name: 80-8080
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  - name: 5005-5005
+    port: 5005
+    protocol: TCP
+    targetPort: 5005
+  selector:
+    app: k8s-example
+  type: LoadBalancer # LoadBalancer 不需要kubectl port-forward 直接用映射出来的 IP 和端口访问
+status:
+  loadBalancer: {}
+```
+
 ### 参考文档
 
 https://hackmd.io/@ryanjbaxter/spring-on-k8s-workshop
@@ -1298,3 +1338,5 @@ https://spring.io/blog/2020/01/27/creating-docker-images-with-spring-boot-2-3-0-
 https://github.com/alibaba/kt-connect
 
 http://ylzheng.com/2019/12/14/how-to-integration-with-kubernetes-from-idea/
+
+https://itnext.io/remote-debugging-spring-boot-on-kubernetes-a5f96a40e5c0
