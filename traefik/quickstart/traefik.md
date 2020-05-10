@@ -1,10 +1,10 @@
-# traefik 快速入门
+# traefik 快速入门(Docker)
 
 ```yaml
 version: '3.6'
 services:
   traefik:
-    image: traefik:2.2.1
+    image: traefik:2.2
     # Enables the web UI and tells Traefik to listen to docker
     # 启用 webUI 并告诉 Traefik 去监听docker的容器实例
     command: --api.insecure=true --providers.docker
@@ -23,7 +23,7 @@ $ docker-compose -f traefik.yaml up
 ```
 
 访问traefik管理面板 http://127.0.0.1:8080
-![](Screenshots/traefik_1.png)
+![](../../Screenshots/traefik_1.png)
 部署应用，并使用traefik进行测试
 
 ```yaml
@@ -38,7 +38,7 @@ services:
 ```bash
 $ docker-compose -f whoami.yaml up
 ```
-![](Screenshots/traefik_2.png)
+![](../../Screenshots/traefik_2.png)
 命令行测试访问
 
 ```bash
@@ -94,7 +94,7 @@ Starting k8s-example_whoami_1 ... done
 Creating k8s-example_whoami_2 ... done
 ```
 
-![](Screenshots/traefik_3.png)
+![](../../Screenshots/traefik_3.png)
 
 此时再访问`curl -H Host:whoami.me http://localhost`就会自动负载均衡到2个不同的实例上去了。
 
@@ -137,3 +137,7 @@ $ curl -H Host:whoami.me http://localhost
 ```
 
 可见已具备负载均衡的能力，在`172.26.0.4`和`172.26.0.2`之间进行负载。
+
+### 参考文档
+
+https://www.qikqiak.com/traefik-book

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traefik
+  namespace: kube-system
+  labels:
+    app: traefik
+spec:
+  selector:
+    matchLabels:
+      app: traefik
+  template:
+    metadata:
+      labels:
+        app: traefik
+    spec:
+      serviceAccountName: traefik
+      containers:
+        - image: traefik:2.2
+          name: traefik
+          ports:
+            - name: web
+              containerPort: 80
+              hostPort: 80
+            - name: websecure
+              containerPort: 443
+              hostPort: 443
+            - name: redis
+              hostPort: 6379
+              containerPort: 6379
+          args:
+            - --entryPoints.web.Address=:80
+            - --entryPoints.websecure.Address=:443
+            - --entryPoints.redis.address=:6379
+            - --api=true
+            - --api.dashboard=true
+            - --api.insecure=true
+            - --ping=true
+            - --providers.kubernetesingress
+            - --providers.kubernetescrd
+            - --log.level=INFO
+            - --accesslog

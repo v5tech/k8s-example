@@ -1,7 +1,7 @@
 version: '3.6'
 services:
   traefik:
-    image: traefik:2.2.1
+    image: traefik:2.2
     # Enables the web UI and tells Traefik to listen to docker
     # 启用 webUI 并告诉 Traefik 去监听docker的容器实例
     command: --api.insecure=true --providers.docker
