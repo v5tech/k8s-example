@@ -7,7 +7,7 @@ $ kubectl apply -f deployment.yaml
 $ kubectl apply -f dashboard.yaml
 ```
 
-浏览器访问http://dashboard.traefik.com即可访问到traefik的dashboard
+浏览器访问 http://dashboard.traefik.com 即可访问到traefik的dashboard
 
 注：在 docker for mac环境下由于网络环境原因需要做kubectl port-forward
 
